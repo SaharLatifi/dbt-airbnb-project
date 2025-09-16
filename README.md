@@ -49,12 +49,26 @@ Data is sourced from publicly available Airbnb CSV files containing listings and
 
 ## 📐 Data Model
 The project uses a **star schema** design:  
+## 📄 Tables
 
-- **Fact Tables**: `fct_listings_summary`, `fct_reviews`  
-- **Dimension Tables**: `dim_hosts`, `dim_neighbourhoods`, `dim_property_types`  
+### Dimensions
+- dim_listing  
+- dim_host  
+- dim_neighbourhood  
+- dim_property_type  
+- dim_date  
+- dim_amenity  
+- dim_reviewer  
 
-👉 *[Insert an ERD diagram or data model screenshot]*  
-![Data Model](<ADD_IMAGE_PATH>)  
+### Facts
+- fct_reviews  
+- fct_listing_snapshot  
+
+### Bridges
+- bridge_listing_amenity 
+
+![alt text](image.png)  
+ 
 
 ---
 
