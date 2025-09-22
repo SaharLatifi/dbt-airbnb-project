@@ -40,8 +40,7 @@ End-to-end Airbnb analytics project using **dbt** for data transformation and a 
 
 ## 🏗️ Architecture
 This project follows a modern data stack pipeline:  
-
-<img width="770" height="373" alt="image" src="https://github.com/user-attachments/assets/bdd1146a-fc63-44ce-a3d5-e45c5d75463b" />
+![alt text](image-3.png)
  
 Data is sourced from publicly available Airbnb CSV files containing listings and reviews. These files are ingested into a Snowflake data warehouse where dbt-fusion orchestrates transformations to clean the raw data, build staging layers, and create fact and dimension tables in marts. The transformed data is then used to power an interactive dashboard built in Power BI, providing insights into key metrics such as pricing, occupancy, host performance, and guest reviews.
 
@@ -67,7 +66,7 @@ The project uses a **star schema** design:
 ### Bridges
 - bridge_listing_amenity 
 
-![alt text](image.png)  
+![alt text](image-1.png)
  
 
 ---
@@ -85,15 +84,34 @@ The transformation pipeline includes:
 ---
 
 ## 📊 Major Metrics
-Some of the business metrics tracked in this project:  
-- Active Listings  
-- Superhost %  
-- Median Price per Night  
-- Occupancy Rate (L365d)  
-- Average Review Score  
-- Reviews per Listing  
-- Instant Bookable %  
 
+Key business metrics tracked in this project:
+
+### 🏠 Listings & Supply
+- **Active Listings** → count of distinct `listing_id` where `has_availability = true`  
+- **Superhost %** → (count of listings with `host_is_superhost = true`) ÷ total listings × 100  
+- **Listings by Property Type** → count of listings grouped by `property_type`  
+
+### 💰 Pricing
+- **Median Price per Night** → median(`price`) across listings  
+- **Average Price by Neighbourhood** → avg(`price`) grouped by `neighbourhood`  
+
+### ⭐ Reviews & Quality
+- **Total Reviews** → sum(`number_of_reviews`)  
+- **Average Review Score** → avg(`review_scores_rating`)  
+- **Recent Reviews Trend** → count of reviews in `fct_reviews` by `date`  
+- **% Positive Reviews** → (count of reviews with `sentiment = 'Positive'`) ÷ total reviews × 100  
+
+### 👩‍💼 Host Performance
+- **Average Host Response Rate** → avg(`host_response_rate`)  
+- **Average Host Acceptance Rate** → avg(`host_acceptance_rate`)  
+- **Listings per Host** → avg(`host_listings_count`)  
+- **Instant Bookable %** → (count of `instant_bookable = true`) ÷ total listings × 100  
+
+👉 *[Add a chart or metric cards screenshot]*  
+![Metrics Example](<ADD_IMAGE_PATH>)  
+
+ 
 👉 *[Add a chart or metric cards screenshot]*  
 ![Metrics Example](<ADD_IMAGE_PATH>)  
 
@@ -112,6 +130,38 @@ Implemented using dbt tests + dbt-utils:
 ---
 
 ## 📊 Dashboard
+flowchart TD
+
+    A[Dashboard: Airbnb Analytics] --> B[Page 1: Overview]
+    A --> C[Page 2: Map & Supply]
+    A --> D[Page 3: Pricing]
+    A --> E[Page 4: Reviews & Sentiment]
+    A --> F[Page 5: Host Performance]
+
+    B --> B1[KPIs: Active Listings, Median Price, Avg Rating, Superhost %, Total Reviews, % Positive Sentiment]
+    B --> B2[Filters: Neighbourhood, Property Type, Room Type, Superhost, Availability]
+    B --> B3[Charts: Listings by Property Type, Price Trend, Rating by Neighbourhood]
+
+    C --> C1[KPI: Active Listings]
+    C --> C2[Map: Listings by Lat/Long, Colored by Rating Band]
+    C --> C3[Chart: Listings by Room Type]
+    C --> C4[Table: Listing Directory]
+
+    D --> D1[KPIs: Median Price, Avg Price, Price IQR]
+    D --> D2[Chart: Price Trend Over Time]
+    D --> D3[Chart: Price Distribution by Neighbourhood]
+    D --> D4[Chart: Median Price by Property Type]
+
+    E --> E1[KPIs: Total Reviews, Avg Rating, % Positive]
+    E --> E2[Line: Review Counts Over Time]
+    E --> E3[Stacked Bar: Sentiment by Neighbourhood]
+    E --> E4[Table: Recent Reviews with Sentiment]
+
+    F --> F1[KPIs: Avg Response Rate, Avg Acceptance Rate, Superhost %]
+    F --> F2[Chart: Listings per Host (Top N)]
+    F --> F3[Chart: Superhost % by Neighbourhood]
+    F --> F4[Table: Host Directory]
+
 The dashboard provides:  
 - Listing distribution by room type, price, and neighborhood  
 - Host performance (Superhost %, acceptance rate, response time)  
