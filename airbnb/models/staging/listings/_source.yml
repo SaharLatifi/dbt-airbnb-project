@@ -1,0 +1,9 @@
+version: 2
+sources:
+- name: listings
+  database: AIRBNB_RAW
+  schema: listings        
+  tables:
+    - name: listings
+    - name: neighbourhoods
+    - name: reviews 

@@ -18,6 +18,7 @@ seeds:
 
 models:
   airbnb:
+    +static_analysis: unsafe
     # Materialize staging models as views, and marts as tables
     staging:
       +materialized: view
