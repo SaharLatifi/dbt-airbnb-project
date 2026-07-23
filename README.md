@@ -40,7 +40,7 @@ End-to-end Airbnb analytics project using **dbt** for data transformation and a 
 
 ## Architecture
 This project follows a modern data stack pipeline:  
-![alt text](image-3.png)
+(image-3.png)
  
 Data is sourced from publicly available Airbnb CSV files containing listings and reviews. These files are ingested into a Snowflake data warehouse where dbt-fusion orchestrates transformations to clean the raw data, build staging layers, and create fact and dimension tables in marts. The transformed data is then used to power an interactive dashboard built in Power BI, providing insights into key metrics such as pricing, occupancy, host performance, and guest reviews.
 
@@ -54,7 +54,6 @@ The project uses a **star schema** design:
 - dim_listing  
 - dim_host  
 - dim_neighbourhood  
-- dim_property_type  
 - dim_date  
 - dim_amenity  
 - dim_reviewer  

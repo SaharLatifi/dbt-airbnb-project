@@ -8,10 +8,10 @@ The bus matrix maps business processes (facts) against dimensions.
 
 ## Bus Matrix
 
-| Business Process | Fact Table | dim_date ⚪ | dim_listing 🟡 | dim_host 🔵 | dim_neighbourhood ⚪ | dim_reviewer 🟡 | dim_amenity ⚪ |
-|------------------|------------|:----------:|:--------------:|:-----------:|:-------------------:|:---------------:|:--------------:|
-| Listing Performance Snapshot | `fct_listing_snapshot` | ✓ | ✓ | — | — | — | — |
-| Guest Reviews | `fct_reviews` | ✓ | ✓ | — | — | ✓ | — |
+| Business Process | Fact Table | Grain | dim_date ⚪ | dim_listing 🟡 | dim_host 🔵 | dim_neighbourhood ⚪ | dim_reviewer 🟡 | dim_amenity ⚪ |
+|------------------|------------|-------|:----------:|:--------------:|:-----------:|:-------------------:|:---------------:|:--------------:|
+| Listing Performance Snapshot | `fct_listing_snapshot` | One row for each listing on each snapshot date | ✓ | ✓ | — | — | — | — |
+| Guest Reviews | `fct_reviews` | One row for each review submitted for a listing | ✓ | ✓ | — | — | ✓ | — |
 
 ---
 
