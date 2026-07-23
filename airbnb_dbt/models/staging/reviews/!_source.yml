@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: reviews
+    database: airbnb_raw
+    schema: reviews
+    tables:
+      - name: reviews
+
