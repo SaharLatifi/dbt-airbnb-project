@@ -20,8 +20,8 @@ End-to-end Airbnb analytics project using **dbt** for data transformation and a 
 
 ## 📑 Table of Contents
 1. [Public Dashboard](#-public-dashboard)  
-2. [Architecture](#-architecture)  
-3. [Data Model](#-data-model)  
+2. [Architecture](#architecture) 
+3. [Data Model](#data-model)  
 4. [ETL Flow](#-etl-flow)  
 5. [Major Metrics](#-major-metrics)  
 6. [Data Quality Checks](#-data-quality-checks)  
@@ -38,7 +38,7 @@ End-to-end Airbnb analytics project using **dbt** for data transformation and a 
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 This project follows a modern data stack pipeline:  
 ![alt text](image-3.png)
  
@@ -46,7 +46,7 @@ Data is sourced from publicly available Airbnb CSV files containing listings and
 
 ---
 
-## 📐 Data Model
+## Data Model
 The project uses a **star schema** design:  
 ## 📄 Tables
 

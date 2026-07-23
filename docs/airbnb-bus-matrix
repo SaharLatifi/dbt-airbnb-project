@@ -10,21 +10,12 @@ The bus matrix maps business processes (facts) against dimensions.
 
 | Business Process | Fact Table | dim_date ⚪ | dim_listing 🟡 | dim_host 🔵 | dim_neighbourhood ⚪ | dim_reviewer 🟡 | dim_amenity ⚪ |
 |------------------|------------|:----------:|:--------------:|:-----------:|:-------------------:|:---------------:|:--------------:|
-| Listing Performance Snapshot | `fct_listing_snapshot` | ✓ | ✓ | ○ | ○ | — | ○ |
-| Guest Reviews | `fct_reviews` | ✓ | ✓ | ○ | ○ | ✓ | ○ |
+| Listing Performance Snapshot | `fct_listing_snapshot` | ✓ | ✓ | — | — | — | — |
+| Guest Reviews | `fct_reviews` | ✓ | ✓ | — | — | ✓ | — |
 
 ---
 
 ## Legend
-
-### Relationship Symbols
-
-| Symbol | Meaning |
-|:------:|---------|
-| ✓ | Direct relationship |
-| ○ | Indirect relationship (available through another dimension) |
-| — | Not applicable |
-
 ### Dimension Types
 
 | Symbol | Type | Description |
