@@ -66,7 +66,7 @@ The project uses a **star schema** design:
 ### Bridges
 - bridge_listing_amenity 
 
-![alt text](image-1.png)
+![alt text]![alt text](image-4.png)
  
 
 ---
