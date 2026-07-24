@@ -1,14 +1,9 @@
 version: 2
 
 sources:
-  - name: listings
+  - name: property
     database: airbnb_raw
     schema: property
     tables:
       - name: listings
-
-  - name: neighbourhoods
-    database: airbnb_raw
-    schema: property
-    tables:
       - name: neighbourhoods
