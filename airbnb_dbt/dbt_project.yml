@@ -19,6 +19,15 @@ models:
     +static_analysis: strict
     # Materialize staging models as views, and marts as tables
     staging:
+      +schema: stage
       +materialized: view
     marts:
+      +schema: mart
       +materialized: table
+
+snapshots:
+  # Builds seeds into '<your_schema_name>_raw'
+  airbnb_dbt:
+    +schema: snapshot
+
+
