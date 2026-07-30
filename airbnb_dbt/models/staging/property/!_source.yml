@@ -7,3 +7,8 @@ sources:
     tables:
       - name: listings
       - name: neighbourhoods
+        config:
+          freshness:
+            warn_after: {count: 3000, period: day}
+          loaded_at_field: scraped_at
+  

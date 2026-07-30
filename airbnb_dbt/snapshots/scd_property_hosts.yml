@@ -1,0 +1,9 @@
+snapshots:
+  - name: scd_property__hosts
+    relation:  ref('stg_property__listings_subset_hosts') 
+    config:
+      database: airbnb_staging
+      schema: snapshots
+      strategy: timestamp 
+      updated_at: last_scraped
+      unique_key: source_host_id
