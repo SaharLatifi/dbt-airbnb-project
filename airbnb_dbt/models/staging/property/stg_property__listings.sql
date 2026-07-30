@@ -4,7 +4,7 @@ with source as (
         nullif(regexp_replace(trim(name), '\\s+', ' '), '')  as listing_name,
         nullif(regexp_replace(trim(description), '\\s+', ' '), '')  as description,
         host_id as source_host_id,
-        last_scraped as snapshot_date,
+        last_scraped ,
         initcap(regexp_replace(trim(host_name), '\\s+', ' ')) as host_name,
         host_since , 
         nullif(regexp_replace(trim(host_response_time), '\\s+', ' '), '') as host_response_time,
