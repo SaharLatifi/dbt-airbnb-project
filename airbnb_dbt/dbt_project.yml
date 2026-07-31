@@ -28,8 +28,8 @@ models:
       +materialized: table
 
 snapshots:
-  # Builds seeds into '<your_schema_name>_raw'
   airbnb_dbt:
+    +database: AIRBNB_STAGING
     +schema: snapshot
 
    
