@@ -47,7 +47,7 @@ with source as (
             when lower(instant_bookable)  in ('t' , 'true') then 'True'
             else null
         end as instant_bookable ,
-        try_cast(nullif(regexp_replace(trim(price), '\\$|,|\\s+', ''), '') as number(38,2)) as price ,
+        try_cast(nullif(regexp_replace(trim(price), '[\\$,\\s]+', ''), '') as number(38,2)) as price,
         minimum_nights , 
         case 
             when lower(has_availability)  in ('f' , 'false') then 'False'
