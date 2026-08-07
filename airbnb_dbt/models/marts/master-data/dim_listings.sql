@@ -46,6 +46,9 @@ with listing_scd_cols as (
        scd.instant_bookable,
        cl.latitude,
        cl.longitude,
+       scd.valid_from,
+       scd.valid_to,
+       scd.is_active,
        current_timestamp as created_at,
        current_timestamp as updated_at
     from listing_scd_cols scd
