@@ -8,7 +8,7 @@ with source as (
         regexp_replace(trim(comments), '\\s+', ' ') as  comments
     from 
         {{ source('reviews', 'reviews') }}
-    where listing_id is not null and id is not null and date is not null
+    where listing_id is not null and id is not null and date is not null 
 )
 select *
 from source

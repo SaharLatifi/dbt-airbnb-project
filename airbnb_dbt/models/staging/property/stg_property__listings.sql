@@ -15,13 +15,25 @@ with source as (
             when lower(host_is_superhost)  in ('t' , 'true') then 'True'
             else null
         end as host_is_super_host,
-        nullif(nullif(regexp_replace(trim(host_verifications), '\\s+', ' '), ''),'none') as host_verifications,
+        nullif(
+            nullif(
+                lower(
+                    regexp_replace(
+                        trim(host_verifications),
+                        '\\s+',
+                        ' '
+                    )
+                ),
+                ''
+            ),
+            'none'
+        ) as host_verifications ,
         case 
             when lower(host_identity_verified)  in ('f' , 'false') then 'False'
             when lower(host_identity_verified)  in ('t' , 'true') then 'True'
             else null
         end as host_identity_verified,
-        trim(regexp_replace(trim(neighbourhood), '\\s+', ' ')) as neighbourhood,
+        trim(regexp_replace(trim(neighbourhood_cleansed), '\\s+', ' ')) as neighbourhood,
         latitude ,
         longitude,
         nullif(initcap(regexp_replace(trim(property_type), '\\s+', ' ')), '') as property_type,
