@@ -7,13 +7,6 @@
 ![GitHub](https://img.shields.io/badge/version-control-black?logo=github)
 
 End-to-end Airbnb analytics project using **dbt** for data transformation and a dashboard to visualize key metrics.  
-
-## 📌 Project Status
-- ✅ Data exploration started  
-- 🔄 Designing data model (staging + star schema)  
-- ⏳ Building transformations in dbt  
-- ⏳ Defining business metrics  
-- ⏳ Creating dashboard for Airbnb analytics
   
 📌 *I will keep updating this README as the project moves forward.* 
 ---
@@ -25,8 +18,6 @@ End-to-end Airbnb analytics project using **dbt** for data transformation and a 
 4. [ETL Flow](#-etl-flow)  
 5. [Major Metrics](#-major-metrics)  
 6. [Data Quality Checks](#-data-quality-checks)  
-7. [Dashboard](#-dashboard)  
-8. [Next Steps](#-next-steps)  
 
 ---
 
@@ -70,6 +61,38 @@ The project uses a **star schema** design:
 
 ---
 
+### Snapshot Strategy
+
+Two dimensions, `dim_host` and `dim_listing`, are modeled as **Slowly Changing Dimensions (SCD Type 2)** to preserve the history of selected attributes that may change over time.
+
+Both dimensions originate from the same `listings` source table, which contains a combination of listing-level and host-level attributes. To track these entities independently and at the correct grain, two separate staging models are created:
+
+- `stg_listings__listing_subset` — one row per `listing_id`, containing the listing attributes selected for historical tracking.
+- `stg_listings__host_subset` — one row per `host_id`, containing the host attributes selected for historical tracking.
+
+Each staging model feeds its corresponding dbt snapshot. This prevents listing-level changes from creating unnecessary host history (and vice versa) and allows each snapshot to use the appropriate business key.
+
+Both snapshots use dbt's **timestamp strategy**, with `last_scraped` as the `updated_at` column.
+
+#### Snapshot Lineage
+
+```text
+                         source: listings
+                                │
+                ┌───────────────┴───────────────┐
+                │                               │
+ stg_listings__listing_subset       stg_listings__host_subset
+       Grain: listing_id                  Grain: host_id
+                │                               │
+                ▼                               ▼
+     scd_listings__listings            scd_listings__hosts
+           SCD Type 2                       SCD Type 2
+                │                               │
+                ▼                               ▼
+           dim_listing                       dim_host
+```
+
+---
 ## 🔄 ETL Flow
 The transformation pipeline includes:  
 1. **Raw Layer** → Load Airbnb CSVs into Snowflake  
