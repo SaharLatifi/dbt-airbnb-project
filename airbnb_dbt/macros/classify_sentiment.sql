@@ -7,7 +7,7 @@ case
 
     when regexp_like(
         lower({{ comment_column }}),
-        '.*\\b(great|excellent|amazing|wonderful|perfect|clean|comfortable|friendly|love|loved|recommend)\\b.*'
+        '.*\\b(great|excellent|nice|good|amazing|wonderful|perfect|clean|comfortable|friendly|lovely|love|loved|recommend|charming|beautiful|happy|satisfied)\\b.*'
     )
         then 'Positive'
 

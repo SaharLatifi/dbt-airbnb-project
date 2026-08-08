@@ -10,7 +10,7 @@ with listing_scd_cols as (
         bathrooms,
         bedrooms,
         instant_bookable,
-        amenities,
+        amenities, 
         price,
         minimum_nights,
         has_availability,

@@ -19,11 +19,7 @@ with reviews as (
         current_timestamp as updated_at 
     from reviews r 
         inner join {{ ref('dim_listings')}} l  on r.source_listing_id = l.source_listing_id --and  r.review_date::timestamp >= l.valid_from
-        --    and r.review_date::timestamp < coalesce(
-         --   l.valid_to,
-         --   '9999-12-31'::timestamp
-        --)
-
+           -- and r.review_date::timestamp < coalesce(l.valid_to,'9999-12-31'::timestamp)
         inner join {{ ref('dim_reviewer')}} re on r.source_reviewer_id = re.source_reviewer_id
         inner join {{ ref('dim_dates')}}     d  on r.review_date = d.date_day 
 )
