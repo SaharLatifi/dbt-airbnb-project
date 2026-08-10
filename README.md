@@ -71,26 +71,35 @@ The bus matrix summarizes the relationship between business processes and shared
 
 ## 🔄 ETL Flow
 
-The project follows a layered transformation workflow from raw source files to analytics-ready models:
+The project follows a layered transformation workflow from raw Airbnb source files to analytics-ready models:
 
 1. **Raw Layer** → Public Airbnb CSV files are loaded into Snowflake and stored in the `airbnb_raw` database under the `property` and `review` schemas.
 
-2. **Staging Layer** → dbt staging models clean and standardize the raw data. Key transformations include:
+2. **Staging Layer** → dbt staging models clean and standardize the raw source data. Key transformations include:
 
    * Handling null and missing values
-   * Standardizing text and boolean fields
+   * Trimming and standardizing text fields
+   * Standardizing boolean values
    * Converting fields to appropriate data types
    * Cleaning price and percentage fields
-   * Parsing and flattening semi-structured amenity data into individual amenities
-   * Transforming host verification data into separate indicators for government ID, email, and phone verification
+   * Preparing source fields for downstream dimensional modeling
 
-3. **Snapshot** → dbt snapshots track historical changes in listing data using SCD Type 2 logic, preserving previous versions of listing attributes for historical analysis.
+3. **Snapshot** → dbt snapshots track historical changes in **listing and host data** using SCD Type 2 logic, preserving previous versions of listing and host attributes as they change over time.
 
-4. **Transformation & Modeling** → Staged data is transformed into reusable business entities. Hosts, neighbourhoods, property types, reviewers, and amenities are modeled as dedicated dimensions, while the many-to-many relationship between listings and amenities is handled through a bridge table.
+4. **Mart Layer** → Staged and snapshot data is transformed into analytics-ready fact, dimension, and bridge tables. Key transformations and modeling steps include:
 
-5. **Mart Layer** → Analytics-ready fact and dimension tables are created in `airbnb_mart`, forming a snowflake-style dimensional model for downstream analytics.
+   * Creating dedicated dimensions for listings, hosts, neighbourhoods, property types, reviewers, and amenities
+   * Parsing and flattening semi-structured amenity data to create `dim_amenity`
+   * Creating `bridge_listing_amenity` to handle the many-to-many relationship between listings and amenities
+   * Parsing the semi-structured `host_verifications` field into separate indicators for government ID, email, and phone verification
+   * Creating fact tables for reviews and listing-related analytical data
+   * Applying surrogate keys to establish relationships between facts and dimensions
 
-6. **Analytics Layer** → The mart models provide the foundation for the Power BI semantic model and interactive dashboard.
+5. **Analytics Layer** → The mart models provide the foundation for the Power BI semantic model and interactive dashboard.
+
+### 📋 Source-to-Target Mapping (STTM)
+
+Detailed field-level mappings, data types, and transformation rules from source data to the final analytical models are documented in the [Source-to-Target Mapping (STTM)](docs/source-to-target-mapping.xlsx).
 
 ### 🔗 dbt Model Lineage
 
@@ -228,9 +237,3 @@ The dashboard provides:
 
 ---
 
-## 🚀 Next Steps
-- Automate with CI/CD (GitHub Actions)  
-- Add incremental models for performance  
-- Expand metrics with time-based trends  
-
----
