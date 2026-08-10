@@ -69,7 +69,7 @@ The bus matrix summarizes the relationship between business processes and shared
 
 ---
 
-## 🔄 ETL Flow
+## ETL Flow
 
 The project follows a layered transformation workflow from raw Airbnb source files to analytics-ready models:
 
@@ -146,7 +146,7 @@ Both snapshots use dbt's **timestamp strategy**, with `last_scraped` as the `upd
 ```
 
 ---
-## 📊 Major Metrics
+## Major Metrics
 
 Key business metrics tracked in this project:
 
@@ -192,7 +192,7 @@ Implemented using dbt tests + dbt-utils:
 
 ---
 
-## 📊 Dashboard
+## Dashboard
 flowchart TD
 
     A[Dashboard: Airbnb Analytics] --> B[Page 1: Overview]
