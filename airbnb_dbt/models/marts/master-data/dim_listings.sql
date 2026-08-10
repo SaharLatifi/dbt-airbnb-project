@@ -43,6 +43,7 @@ with listing_scd_cols as (
        scd.accommodates,
        scd.bathrooms,
        scd.bedrooms,
+       scd.price, 
        scd.instant_bookable,
        cl.latitude,
        cl.longitude,
