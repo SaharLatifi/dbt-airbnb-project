@@ -75,27 +75,25 @@ The project follows a layered transformation workflow from raw Airbnb source fil
 
 1. **Raw Layer** → Public Airbnb CSV files are loaded into Snowflake and stored in the `airbnb_raw` database under the `property` and `review` schemas.
 
-2. **Staging Layer** → dbt staging models clean and standardize the raw source data. Key transformations include:
+2. **Staging Layer** → dbt staging models clean and standardize the raw source data. Common transformations include handling null values, trimming and standardizing text, converting data types, standardizing boolean values, and cleaning price and percentage fields.
 
-   * Handling null and missing values
-   * Trimming and standardizing text fields
-   * Standardizing boolean values
-   * Converting fields to appropriate data types
-   * Cleaning price and percentage fields
-   * Preparing source fields for downstream dimensional modeling
+3. **Snapshot Layer** → dbt snapshots track historical changes in **listing and host data** using SCD Type 2 logic. Listings and hosts are tracked independently at their appropriate grain to prevent changes in one entity from creating unnecessary history for the other. See the [Snapshot Strategy](#snapshot-strategy) section for details.
 
-3. **Snapshot** → dbt snapshots track historical changes in **listing and host data** using SCD Type 2 logic, preserving previous versions of listing and host attributes as they change over time.
+4. **Mart Layer** → Staged and snapshot data is transformed into analytics-ready fact, dimension, and bridge tables. Major transformations and modeling decisions include:
 
-4. **Mart Layer** → Staged and snapshot data is transformed into analytics-ready fact, dimension, and bridge tables. Key transformations and modeling steps include:
+   * **Review Sentiment Classification** → Review comments are classified as **Positive, Negative, or Neutral** using a simple rule-based dbt macro that checks the review text against predefined positive and negative keywords.
 
-   * Creating dedicated dimensions for listings, hosts, neighbourhoods, property types, reviewers, and amenities
-   * Parsing and flattening semi-structured amenity data to create `dim_amenity`
-   * Creating `bridge_listing_amenity` to handle the many-to-many relationship between listings and amenities
-   * Parsing the semi-structured `host_verifications` field into separate indicators for government ID, email, and phone verification
-   * Creating fact tables for reviews and listing-related analytical data
-   * Applying surrogate keys to establish relationships between facts and dimensions
+   * **Amenities Parsing & Flattening** → The semi-structured amenities field is parsed and flattened so that individual amenities can be modeled and analyzed separately.
+
+   * **Amenities Many-to-Many Relationship** → Because a listing can have many amenities and the same amenity can belong to many listings, amenities are modeled in `dim_amenity` and connected to listings through `bridge_listing_amenity`.
+
+   * **Host Verification Indicators** → The semi-structured `host_verifications` VARCHAR field is parsed into separate indicators for government ID, email, and phone verification, making the verification information easier to analyze.
+
+   * **Dimensional Modeling** → Business entities such as listings, hosts, neighbourhoods, property types, reviewers, and amenities are modeled as dedicated dimensions, with surrogate keys used to establish relationships between facts, dimensions, and bridge tables.
 
 5. **Analytics Layer** → The mart models provide the foundation for the Power BI semantic model and interactive dashboard.
+
+
 
 ### 📋 Source-to-Target Mapping (STTM)
 
