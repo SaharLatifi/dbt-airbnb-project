@@ -7,38 +7,42 @@
 ![GitHub](https://img.shields.io/badge/version-control-black?logo=github)
 
 End-to-end Airbnb analytics project using **dbt** for data transformation and a dashboard to visualize key metrics.  
-  
-📌 *I will keep updating this README as the project moves forward.* 
+
 ---
 
 ## 📑 Table of Contents
-1. [Public Dashboard](#-public-dashboard)  
-2. [Architecture](#architecture) 
-3. [Data Model](#data-model)  
-4. [ETL Flow](#-etl-flow)  
-5. [Major Metrics](#-major-metrics)  
-6. [Data Quality Checks](#-data-quality-checks)  
+
+1. [Public Dashboard](#public-dashboard)
+2. [Architecture](#architecture)
+3. [Data Model](#data-model)
+4. [ETL Flow](#etl-flow)
+5. [Snapshot Strategy](#snapshot-strategy)
+6. [Major Metrics](#major-metrics)
+7. [Data Quality Checks](#data-quality-checks) 
 
 ---
 
-## 📊 Public Dashboard
-🔗 [View the dashboard here](<ADD_LINK>)  
+## Public Dashboard
 
-👉 *[Insert a screenshot of the dashboard]*  
-![Dashboard Preview](<ADD_IMAGE_PATH>)  
+🔗 [View the dashboard here](ADD_LINK)
+
+👉 *[Insert a screenshot of the dashboard]*
 
 ---
 
 ## Architecture
-This project follows a modern data stack pipeline:  
-(image-3.png)
- 
-Data is sourced from publicly available Airbnb CSV files containing listings and reviews. These files are ingested into a Snowflake data warehouse where dbt-fusion orchestrates transformations to clean the raw data, build staging layers, and create fact and dimension tables in marts. The transformed data is then used to power an interactive dashboard built in Power BI, providing insights into key metrics such as pricing, occupancy, host performance, and guest reviews.
+
+
+![Architecture](image-3.png)
+
+
+Data is sourced from publicly available Airbnb CSV files containing listings, reviews, and neighbourhood data. The raw data is loaded into Snowflake, where dbt Fusion is used to transform, clean, and standardize the data through staging models and build analytics-ready fact and dimension tables in the mart layer. The transformed data is then used to create an interactive Power BI dashboard, providing insights into key metrics such as pricing, availability, host performance, and guest reviews.
 
 ---
 
 ## Data Model
-The project uses a **star schema** design:  
+The project uses a **dimensional data model with a snowflake-style structure**. Related entities such as hosts, neighbourhoods, and property types are modeled as separate dimensions because they can be shared across multiple listings. This reduces data duplication and represents the natural relationships between Airbnb entities more clearly.
+
 ## 📄 Tables
 
 ### Dimensions
@@ -51,17 +55,57 @@ The project uses a **star schema** design:
 
 ### Facts
 - fct_reviews  
-- fct_listing_snapshot  
+
 
 ### Bridges
 - bridge_listing_amenity 
+<img width="566" height="696" alt="airbnb-data-model" src="https://github.com/user-attachments/assets/6f9c2e6d-7481-404b-bc5d-2bcb34dcc0c9" />
 
-![alt text]![alt text](image-4.png)
  
+### Bus Matrix
+The bus matrix summarizes the relationship between business processes and shared dimensions.
+
+📋 [View the Bus Matrix](docs/airbnb-bus-matrix.md)
 
 ---
 
-### Snapshot Strategy
+## 🔄 ETL Flow
+
+The project follows a layered transformation workflow from raw source files to analytics-ready models:
+
+1. **Raw Layer** → Public Airbnb CSV files are loaded into Snowflake and stored in the `airbnb_raw` database under the `property` and `review` schemas.
+
+2. **Staging Layer** → dbt staging models clean and standardize the raw data. Key transformations include:
+
+   * Handling null and missing values
+   * Standardizing text and boolean fields
+   * Converting fields to appropriate data types
+   * Cleaning price and percentage fields
+   * Parsing and flattening semi-structured amenity data into individual amenities
+   * Transforming host verification data into separate indicators for government ID, email, and phone verification
+
+3. **Snapshot** → dbt snapshots track historical changes in listing data using SCD Type 2 logic, preserving previous versions of listing attributes for historical analysis.
+
+4. **Transformation & Modeling** → Staged data is transformed into reusable business entities. Hosts, neighbourhoods, property types, reviewers, and amenities are modeled as dedicated dimensions, while the many-to-many relationship between listings and amenities is handled through a bridge table.
+
+5. **Mart Layer** → Analytics-ready fact and dimension tables are created in `airbnb_mart`, forming a snowflake-style dimensional model for downstream analytics.
+
+6. **Analytics Layer** → The mart models provide the foundation for the Power BI semantic model and interactive dashboard.
+
+### 🔗 dbt Model Lineage
+
+The dbt lineage graph below shows the dependencies and transformation flow from source data through staging models to analytics-ready marts.
+
+![dbt Model Lineage](docs/images/dbt-lineage.png)
+
+
+### 📋 Source-to-Target Mapping (STTM)
+
+Detailed field-level mappings, data types, and transformation rules from source data to the final analytical models are documented in the [Source-to-Target Mapping (STTM)](docs/source-to-target-mapping.xlsx).
+  
+
+---
+## Snapshot Strategy
 
 Two dimensions, `dim_host` and `dim_listing`, are modeled as **Slowly Changing Dimensions (SCD Type 2)** to preserve the history of selected attributes that may change over time.
 
@@ -93,18 +137,6 @@ Both snapshots use dbt's **timestamp strategy**, with `last_scraped` as the `upd
 ```
 
 ---
-## 🔄 ETL Flow
-The transformation pipeline includes:  
-1. **Raw Layer** → Load Airbnb CSVs into Snowflake  
-2. **Staging Layer** → Clean and standardize source tables (`stg_listings`, `stg_reviews`)  
-3. **Intermediate Layer** → Join and enrich datasets (host details, review scores)  
-4. **Marts Layer** → Facts and dimensions ready for analytics  
-
-👉 *[Insert your ETL flow diagram]*  
-![ETL Flow](<ADD_IMAGE_PATH>)  
-
----
-
 ## 📊 Major Metrics
 
 Key business metrics tracked in this project:
