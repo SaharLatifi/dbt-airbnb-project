@@ -146,6 +146,20 @@ Both snapshots use dbt's **timestamp strategy**, with `last_scraped` as the `upd
 ```
 
 ---
+---
+
+## Data Quality Checks
+Implemented using dbt tests + dbt-utils:  
+- **Uniqueness**: `id`, `host_id` in dimension tables  
+- **Not Null**: keys and required fields (price, room_type, review scores)  
+- **Accepted Values**: room types, property types, host verification methods  
+- **Custom Tests**: `price >= 0`, occupancy rate within valid range  
+
+👉 *[Add a dbt test results screenshot]*  
+![Data Quality Checks](<ADD_IMAGE_PATH>)   
+
+
+---
 ## Major Metrics
 
 Key business metrics tracked in this project:
@@ -178,17 +192,7 @@ Key business metrics tracked in this project:
 👉 *[Add a chart or metric cards screenshot]*  
 ![Metrics Example](<ADD_IMAGE_PATH>)  
 
----
 
-## Data Quality Checks
-Implemented using dbt tests + dbt-utils:  
-- **Uniqueness**: `id`, `host_id` in dimension tables  
-- **Not Null**: keys and required fields (price, room_type, review scores)  
-- **Accepted Values**: room types, property types, host verification methods  
-- **Custom Tests**: `price >= 0`, occupancy rate within valid range  
-
-👉 *[Add a dbt test results screenshot]*  
-![Data Quality Checks](<ADD_IMAGE_PATH>)  
 
 ---
 
