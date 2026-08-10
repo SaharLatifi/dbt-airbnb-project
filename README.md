@@ -180,7 +180,7 @@ Key business metrics tracked in this project:
 
 ---
 
-## ✅ Data Quality Checks
+## Data Quality Checks
 Implemented using dbt tests + dbt-utils:  
 - **Uniqueness**: `id`, `host_id` in dimension tables  
 - **Not Null**: keys and required fields (price, room_type, review scores)  
