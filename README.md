@@ -158,80 +158,101 @@ Implemented using dbt tests + dbt-utils:
 
 
 ---
-## Major Metrics
+## 📊 Major Metrics
 
-Key business metrics tracked in this project:
+The dashboard focuses on a concise set of business metrics that support analysis of listings, pricing, reviews, amenities, and host performance.
 
-### 🏠 Listings & Supply
-- **Active Listings** → count of distinct `listing_id` where `has_availability = true`  
-- **Superhost %** → (count of listings with `host_is_superhost = true`) ÷ total listings × 100  
-- **Listings by Property Type** → count of listings grouped by `property_type`  
+### 🏠 Listings & Market
 
-### 💰 Pricing
-- **Median Price per Night** → median(`price`) across listings  
-- **Average Price by Neighbourhood** → avg(`price`) grouped by `neighbourhood`  
+* **Active Listings** → Count of distinct listings where `has_availability = true`
+* **Median Price per Night** → Median listing price
+* **Superhost %** → Percentage of listings associated with Superhosts
+* **Average Review Score** → Average overall review rating
+* **Listings by Neighbourhood** → Count of listings grouped by neighbourhood
+* **Listings by Property Type** → Count of listings grouped by property type
+* **Median Price by Neighbourhood** → Median listing price grouped by neighbourhood
+* **Top Amenities** → Most common amenities based on the number of associated listings
 
-### ⭐ Reviews & Quality
-- **Total Reviews** → sum(`number_of_reviews`)  
-- **Average Review Score** → avg(`review_scores_rating`)  
-- **Recent Reviews Trend** → count of reviews in `fct_reviews` by `date`  
-- **% Positive Reviews** → (count of reviews with `sentiment = 'Positive'`) ÷ total reviews × 100  
+### ⭐ Reviews & Sentiment
+
+* **Total Reviews** → Count of review records in `fct_reviews`
+* **Positive Reviews %** → Percentage of reviews classified as `Positive`
+* **Review Sentiment Distribution** → Distribution of Positive, Neutral, and Negative reviews
+* **Reviews Over Time** → Number of reviews by review date
 
 ### 👩‍💼 Host Performance
-- **Average Host Response Rate** → avg(`host_response_rate`)  
-- **Average Host Acceptance Rate** → avg(`host_acceptance_rate`)  
-- **Listings per Host** → avg(`host_listings_count`)  
-- **Instant Bookable %** → (count of `instant_bookable = true`) ÷ total listings × 100  
 
-👉 *[Add a chart or metric cards screenshot]*  
-![Metrics Example](<ADD_IMAGE_PATH>)  
-
- 
-👉 *[Add a chart or metric cards screenshot]*  
-![Metrics Example](<ADD_IMAGE_PATH>)  
-
-
+* **Average Host Response Rate** → Average host response rate
+* **Average Host Acceptance Rate** → Average host acceptance rate
+* **Host Verification Coverage** → Percentage of hosts with email, phone, and government ID verification
+* **Superhost vs Non-Superhost Review Score** → Comparison of average review scores between Superhosts and non-Superhosts
+* **Instant Bookable %** → Percentage of listings that allow instant booking
 
 ---
 
-## Dashboard
-flowchart TD
+## 📈 Dashboard Design
 
-    A[Dashboard: Airbnb Analytics] --> B[Page 1: Overview]
-    A --> C[Page 2: Map & Supply]
-    A --> D[Page 3: Pricing]
-    A --> E[Page 4: Reviews & Sentiment]
-    A --> F[Page 5: Host Performance]
+The Power BI dashboard is intentionally limited to **two pages**, as the primary focus of this project is the analytics engineering workflow, including dbt transformations, dimensional modeling, snapshots, testing, and data lineage.
 
-    B --> B1[KPIs: Active Listings, Median Price, Avg Rating, Superhost %, Total Reviews, % Positive Sentiment]
-    B --> B2[Filters: Neighbourhood, Property Type, Room Type, Superhost, Availability]
-    B --> B3[Charts: Listings by Property Type, Price Trend, Rating by Neighbourhood]
+### Page 1 — Listings & Market Overview
 
-    C --> C1[KPI: Active Listings]
-    C --> C2[Map: Listings by Lat/Long, Colored by Rating Band]
-    C --> C3[Chart: Listings by Room Type]
-    C --> C4[Table: Listing Directory]
+This page provides a high-level view of Airbnb supply and pricing.
 
-    D --> D1[KPIs: Median Price, Avg Price, Price IQR]
-    D --> D2[Chart: Price Trend Over Time]
-    D --> D3[Chart: Price Distribution by Neighbourhood]
-    D --> D4[Chart: Median Price by Property Type]
+**KPI Cards**
 
-    E --> E1[KPIs: Total Reviews, Avg Rating, % Positive]
-    E --> E2[Line: Review Counts Over Time]
-    E --> E3[Stacked Bar: Sentiment by Neighbourhood]
-    E --> E4[Table: Recent Reviews with Sentiment]
+* Active Listings
+* Median Price per Night
+* Superhost %
+* Average Review Score
 
-    F --> F1[KPIs: Avg Response Rate, Avg Acceptance Rate, Superhost %]
-    F --> F2[Chart: Listings per Host (Top N)]
-    F --> F3[Chart: Superhost % by Neighbourhood]
-    F --> F4[Table: Host Directory]
+**Visuals**
 
-The dashboard provides:  
-- Listing distribution by room type, price, and neighborhood  
-- Host performance (Superhost %, acceptance rate, response time)  
-- Occupancy and revenue trends  
-- Review score breakdowns  
+* Listings by Neighbourhood
+* Median Price by Neighbourhood
+* Listings by Property Type
+* Top 10 Amenities
+
+**Primary Filters**
+
+* Neighbourhood
+* Property Type
+* Room Type
+* Superhost Status
+
+The amenities visual demonstrates how the flattened amenities data and `bridge_listing_amenity` table are used in downstream analytics.
+
+### Page 2 — Reviews & Host Insights
+
+This page focuses on guest feedback and host characteristics.
+
+**KPI Cards**
+
+* Total Reviews
+* Positive Reviews %
+* Average Host Response Rate
+* Average Host Acceptance Rate
+
+**Visuals**
+
+* Reviews Over Time
+* Review Sentiment Distribution
+* Host Verification Coverage
+* Superhost vs Non-Superhost Review Score
+
+**Primary Filters**
+
+* Neighbourhood
+* Property Type
+* Superhost Status
+* Review Date
+
+The sentiment visual uses the rule-based sentiment classification created in dbt, while the host verification visual uses the derived email, phone, and government ID verification indicators.
+
+### Dashboard Preview
+
+👉 *[Insert Page 1 dashboard screenshot]*
+
+👉 *[Insert Page 2 dashboard screenshot]*
 
 👉 *[Insert final dashboard screenshots]*  
 ![Dashboard Screenshot 1](<ADD_IMAGE_PATH>)  
