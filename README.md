@@ -60,7 +60,6 @@ The project uses a **dimensional data model with a snowflake-style structure**. 
 
 ### Bridges
 - bridge_listing_amenity 
-<img width="566" height="696" alt="airbnb-data-model" src="https://github.com/user-attachments/assets/6f9c2e6d-7481-404b-bc5d-2bcb34dcc0c9" />
 
  
 ### Bus Matrix
