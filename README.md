@@ -147,11 +147,27 @@ Both snapshots use dbt's **timestamp strategy**, with `last_scraped` as the `upd
 ---
 
 ## Data Quality Checks
-Implemented using dbt tests + dbt-utils:  
-- **Uniqueness**: `id`, `host_id` in dimension tables  
-- **Not Null**: keys and required fields (price, room_type, review scores)  
-- **Accepted Values**: room types, property types, host verification methods  
-- **Custom Tests**: `price >= 0`, occupancy rate within valid range  
+
+### Data Quality Tests
+
+As this is a learning and portfolio project, a representative set of dbt tests is implemented to demonstrate different data quality testing approaches rather than providing exhaustive test coverage.
+
+| Layer    | Model                    | Field / Rule             | Test                                               | Severity |
+| -------- | ------------------------ | ------------------------ | -------------------------------------------------- | -------- |
+| Source   | `source_listings`        | `listing_id`             | Not null and unique                                | Error    |
+| Source   | `source_listings`        | `host_id`                | Not null                                           | Error    |
+| Source   | `source_listings`        | `host_identity_verified` | Not null                                           | Warning  |
+| Source   | `source_listings`        | `room_type`              | Accepted values                                    | Warning  |
+| Source   | `source_listings`        | `price`                  | Must be `>= 0`                                     | Error    |
+| Mart     | `dim_listing`            | `listing_sk`             | Not null and unique                                | Error    |
+| Mart     | `dim_listing`            | `host_sk`                | Relationship to `dim_host`                         | Error    |
+| Mart     | `fct_reviews`            | `review_id`              | Not null and unique                                | Error    |
+| Mart     | `fct_reviews`            | `sentiment`              | Accepted values: `Positive`, `Neutral`, `Negative` | Error    |
+| Mart     | `dim_host`               | Superhost verification   | Flag Superhosts without government ID verification | Warning  |
+| Snapshot | `scd_listings__listings` | Current record           | Maximum one current record per `listing_id`        | Error    |
+
+
+
 
 👉 *[Add a dbt test results screenshot]*  
 ![Data Quality Checks](<ADD_IMAGE_PATH>)   
