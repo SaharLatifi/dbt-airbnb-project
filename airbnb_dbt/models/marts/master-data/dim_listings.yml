@@ -1,0 +1,108 @@
+version: 2
+
+models:
+  - name: dim_listings
+    description: >
+      SCD Type 2 listing dimension containing historical Airbnb listing
+      attributes and relationships to host and neighbourhood dimensions.
+
+    columns:
+      - name: listing_id
+        description: "Surrogate key identifying a unique historical version of a listing."
+        data_tests:
+          - not_null
+          - unique
+
+      - name: source_listing_id
+        description: "Business key identifying the listing in the Airbnb source data."
+        data_tests:
+          - not_null
+
+      - name: listing_name
+        description: "Name of the Airbnb listing."
+
+      - name: description
+        description: "Current description of the listing."
+
+      - name: host_id
+        description: "Surrogate key referencing the associated host dimension."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_hosts')
+                field: host_id
+              config:
+                store_failures: true
+
+      - name: neighbourhood_id
+        description: "Surrogate key referencing the associated neighbourhood dimension."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_neighbourhood')
+                field: neighbourhood_id
+
+      - name: property_type
+        description: "Property type of the listing."
+
+      - name: room_type
+        description: "Room type offered by the listing."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Entire home/apt', 'Private room', 'Shared room']
+              config:
+                store_failures: true
+
+      - name: accommodates
+        description: "Maximum number of guests the listing can accommodate."
+
+      - name: bathrooms
+        description: "Number of bathrooms available in the listing."
+
+      - name: bedrooms
+        description: "Number of bedrooms available in the listing."
+
+      - name: price
+        description: "Cleaned numeric nightly listing price."
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+
+      - name: has_availability
+        description: "Indicates whether the listing has availability."
+
+      - name: instant_bookable
+        description: "Indicates whether the listing can be booked instantly."
+
+      - name: latitude
+        description: "Latitude of the listing location."
+
+      - name: longitude
+        description: "Longitude of the listing location."
+
+      - name: valid_from
+        description: "Timestamp from which this historical listing version is valid."
+        data_tests:
+          - not_null
+
+      - name: valid_to
+        description: "Timestamp until which this historical listing version is valid; null for the current version."
+
+      - name: is_active
+        description: "Indicates whether this is the current active version of the listing."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: created_at
+        description: "Timestamp when the dimensional record was created."
+
+      - name: updated_at
+        description: "Timestamp when the dimensional record was last updated."
+

@@ -6,9 +6,38 @@ sources:
     schema: property
     tables:
       - name: listings
+        description: "Listings data from the raw source"
+        columns:
+          - name: id
+            description: "Unique identifier for each listing"
+            tests:
+              - not_null
+              - unique  # Optional: ensure no duplicates
+          - name: host_id
+            description: "Unique identifier for each host"
+            tests:
+              - not_null
+          - name: host_identity_verified
+            description: "Indicates if the host's identity has been verified"
+            tests:
+              - not_null:
+                  config:
+                    severity: warn
+          - name: room_type
+            description: "Type of room offered in the listing"
+            tests:
+              - accepted_values:
+                  arguments:
+                    values: ['Entire home/apt', 'Private room', 'Shared room']
+                  config:
+                    severity: error   
+         
       - name: neighbourhoods
         config:
           freshness:
             warn_after: {count: 3000, period: day}
           loaded_at_field: scraped_at
   
+
+
+
