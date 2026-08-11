@@ -32,7 +32,7 @@ with listing_scd_cols as (
     from {{ ref('stg_property__listings') }}
 ) ,  final_listings as (
     select 
-       {{ dbt_utils.generate_surrogate_key(['scd.source_listing_id']) }} as listing_id,
+       {{ dbt_utils.generate_surrogate_key(['scd.source_listing_id' , 'scd.valid_from']) }} as listing_id,
        scd.source_listing_id  ,
        listing_name,
        description,

@@ -1,0 +1,66 @@
+version: 2
+
+models:
+  - name: fct_reviews
+    description: >
+      Review fact table containing Airbnb review events enriched with
+      listing, reviewer, date, and sentiment information.
+
+    columns:
+      - name: review_id
+        description: "Surrogate key identifying a unique review."
+        data_tests:
+          - not_null
+          - unique:
+              config:
+                store_failures: true
+
+      - name: source_review_id
+        description: "Business key identifying the review in the source data."
+        data_tests:
+          - not_null
+
+      - name: listing_id
+        description: "Surrogate key referencing the associated listing."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_listings')
+                field: listing_id
+
+      - name: reviewer_id
+        description: "Surrogate key referencing the associated reviewer."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_reviewer')
+                field: reviewer_id
+
+      - name: review_date_id
+        description: "Surrogate key referencing the review date."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_id
+
+      - name: comments
+        description: "Review comments provided by the guest."
+
+      - name: sentiment
+        description: "Rule-based sentiment classification derived from the review comments."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Positive', 'Neutral', 'Negative']
+              config:
+                store_failures: true
+
+      - name: created_at
+        description: "Timestamp when the fact record was created."
+
+      - name: updated_at
+        description: "Timestamp when the fact record was last updated."
