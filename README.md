@@ -103,7 +103,7 @@ Detailed field-level mappings, data types, and transformation rules from source 
 
 The dbt lineage graph below shows the dependencies and transformation flow from source data through staging models to analytics-ready marts.
 
-![alt text](docs/lineage-screenshots/all_with_materialization.png)
+![alt text](image-4.png)
 
 
 ### 📋 Source-to-Target Mapping (STTM)
