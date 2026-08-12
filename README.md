@@ -56,7 +56,7 @@ The project uses a **dimensional data model with a snowflake-style structure**. 
 ### Facts
 - fct_reviews  
 
-![alt text](image-1.png)
+![alt text](image-5.png)
 
 ### Bridges
 - bridge_listing_amenity 

@@ -44,6 +44,7 @@ with listing_scd_cols as (
        scd.bathrooms,
        scd.bedrooms,
        scd.price, 
+       scd.review_scores_rating,
        scd.has_availability ,
        scd.instant_bookable,
        cl.latitude,
