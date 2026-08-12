@@ -15,7 +15,14 @@ with listings as (
         has_availability ,
         instant_bookable,
         latitude,
-        longitude
+        longitude ,
+        number_of_reviews , 
+        review_scores_rating,
+        review_scores_cleanliness,
+        review_scores_checkin,
+        review_scores_communication,
+        review_scores_location,
+        reviews_per_month 
     from {{ ref('dim_listings') }}
     where is_active = 'True'
 ) , listings_hosts_neighbourhoods as (
@@ -33,6 +40,13 @@ with listings as (
         l.instant_bookable,
         l.latitude,
         l.longitude ,
+        l.number_of_reviews , 
+        l.review_scores_rating,
+        l.review_scores_cleanliness,
+        l.review_scores_checkin,
+        l.review_scores_communication,
+        l.review_scores_location,
+        l.reviews_per_month ,
         h.host_name ,
         h.host_response_time,
         h.host_response_rate,

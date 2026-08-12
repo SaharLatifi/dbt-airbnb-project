@@ -57,6 +57,8 @@ with source as (
         number_of_reviews , 
         review_scores_rating,
         review_scores_cleanliness,
+        review_scores_checkin,
+        review_scores_communication,
         review_scores_location,
         reviews_per_month
     from {{ source('property', 'listings') }}
