@@ -152,19 +152,26 @@ Both snapshots use dbt's **timestamp strategy**, with `last_scraped` as the `upd
 
 As this is a learning and portfolio project, a representative set of dbt tests is implemented to demonstrate different data quality testing approaches rather than providing exhaustive test coverage.
 
-| Layer    | Model                    | Field / Rule             | Test                                               | Severity |
-| -------- | ------------------------ | ------------------------ | -------------------------------------------------- | -------- |
-| Source   | `source_listings`        | `listing_id`             | Not null and unique                                | Error    |
-| Source   | `source_listings`        | `host_id`                | Not null                                           | Error    |
-| Source   | `source_listings`        | `host_identity_verified` | Not null                                           | Warning  |
-| Source   | `source_listings`        | `room_type`              | Accepted values                                    | Warning  |
-| Source   | `source_listings`        | `price`                  | Must be `>= 0`                                     | Error    |
-| Mart     | `dim_listing`            | `listing_sk`             | Not null and unique                                | Error    |
-| Mart     | `dim_listing`            | `host_sk`                | Relationship to `dim_host`                         | Error    |
-| Mart     | `fct_reviews`            | `review_id`              | Not null and unique                                | Error    |
-| Mart     | `fct_reviews`            | `sentiment`              | Accepted values: `Positive`, `Neutral`, `Negative` | Error    |
-| Mart     | `dim_host`               | Superhost verification   | Flag Superhosts without government ID verification | Warning  |
-| Snapshot | `scd_listings__listings` | Current record           | Maximum one current record per `listing_id`        | Error    |
+| Layer  | Model             | Field                    | Test                                               | Severity |
+| ------ | ----------------- | ------------------------ | -------------------------------------------------- | -------- |
+| Source | `source_listings` | `id`                     | Not null and unique                                | Error    |
+| Source | `source_listings` | `host_id`                | Not null                                           | Error    |
+| Source | `source_listings` | `host_identity_verified` | Not null                                           | Warning  |
+| Source | `source_listings` | `room_type`              | Accepted values                                    | Warning  |
+| Mart   | `dim_listings`    | `listing_id`             | Not null and unique                                | Error    |
+| Mart   | `dim_listings`    | `source_listing_id`      | Not null                                           | Error    |
+| Mart   | `dim_listings`    | `host_id`                | Not null and relationship to `dim_hosts`           | Error    |
+| Mart   | `dim_listings`    | `neighbourhood_id`       | Not null and relationship to `dim_neighbourhood`   | Error    |
+| Mart   | `dim_listings`    | `price`                  | Not null and must be `>= 0`                        | Error    |
+| Mart   | `dim_listings`    | `is_active`              | Accepted values: `true`, `false`                   | Error    |
+| Mart   | `fct_reviews`     | `review_id`              | Not null and unique                                | Error    |
+| Mart   | `fct_reviews`     | `source_review_id`       | Not null                                           | Error    |
+| Mart   | `fct_reviews`     | `listing_id`             | Not null and relationship to `dim_listings`        | Error    |
+| Mart   | `fct_reviews`     | `reviewer_id`            | Not null and relationship to `dim_reviewer`        | Error    |
+| Mart   | `fct_reviews`     | `review_date_id`         | Not null and relationship to `dim_dates`           | Error    |
+| Mart   | `fct_reviews`     | `sentiment`              | Accepted values: `Positive`, `Neutral`, `Negative` | Error    |
+| Mart     | `dim_host`               | `Superhost verification`   | Flag Superhosts without government ID verification | Warning  |
+| Snapshot | `scd_listings__listings` | `Current record`       | Maximum one current record per `listing_id`        | Error    |
 
 
 
