@@ -47,6 +47,7 @@ with listings as (
         l.review_scores_communication,
         l.review_scores_location,
         l.reviews_per_month ,
+        h.host_id,
         h.host_name ,
         h.host_response_time,
         h.host_response_rate,
