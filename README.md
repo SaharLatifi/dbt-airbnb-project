@@ -12,23 +12,16 @@ End-to-end Airbnb analytics project using **dbt** for data transformation and a 
 
 ## 📑 Table of Contents
 
-1. [Public Dashboard](#public-dashboard)
-2. [Architecture](#architecture)
-3. [Data Model](#data-model)
-4. [ETL Flow](#etl-flow)
-5. [Snapshot Strategy](#snapshot-strategy)
-6. [Major Metrics](#major-metrics)
-7. [Data Quality Checks](#data-quality-checks) 
+1. [Architecture](#architecture)
+2. [Data Model](#data-model)
+3. [ETL Flow](#etl-flow)
+4. [Snapshot Strategy](#snapshot-strategy)
+5. [Data Quality Checks](#data-quality-checks)
+6. [Major Metrics](#major-metrics) 
+7. [Public Dashboard](#public-dashboard)
 
 ---
 
-## Public Dashboard
-
-🔗 [View the dashboard here](ADD_LINK)
-
-👉 *[Insert a screenshot of the dashboard]*
-
----
 
 ## Architecture
 
@@ -212,74 +205,29 @@ The dashboard focuses on a concise set of business metrics that support analysis
 * **Instant Bookable %** → Percentage of listings that allow instant booking
 
 ---
+## 📊 Interactive Dashboard
 
-## 📈 Dashboard Design
+Explore the interactive Vancouver Airbnb dashboard in Looker Studio:
 
-The Power BI dashboard is intentionally limited to **two pages**, as the primary focus of this project is the analytics engineering workflow, including dbt transformations, dimensional modeling, snapshots, testing, and data lineage.
+👉 [View Interactive Dashboard] https://datastudio.google.com/reporting/a60a878d-a5bf-426f-a0f5-deb642265242
+### Dashboard Pages
+- **Listings & Market** — Active listings, neighbourhood pricing, and top amenities
+- **Reviews & Host Insights** — Review trends, sentiment, host verification, and host performance
 
-### Page 1 — Listings & Market Overview
 
-This page provides a high-level view of Airbnb supply and pricing.
 
-**KPI Cards**
 
-* Active Listings
-* Median Price per Night
-* Superhost %
-* Average Review Score
-
-**Visuals**
-
-* Listings by Neighbourhood
-* Median Price by Neighbourhood
-* Listings by Property Type
-* Top 10 Amenities
-
-**Primary Filters**
-
-* Neighbourhood
-* Property Type
-* Room Type
-* Superhost Status
-
-The amenities visual demonstrates how the flattened amenities data and `bridge_listing_amenity` table are used in downstream analytics.
-
-### Page 2 — Reviews & Host Insights
-
-This page focuses on guest feedback and host characteristics.
-
-**KPI Cards**
-
-* Total Reviews
-* Positive Reviews %
-* Average Host Response Rate
-* Average Host Acceptance Rate
-
-**Visuals**
-
-* Reviews Over Time
-* Review Sentiment Distribution
-* Host Verification Coverage
-* Superhost vs Non-Superhost Review Score
-
-**Primary Filters**
-
-* Neighbourhood
-* Property Type
-* Superhost Status
-* Review Date
-
-The sentiment visual uses the rule-based sentiment classification created in dbt, while the host verification visual uses the derived email, phone, and government ID verification indicators.
+The sentiment visual uses the rule-based sentiment classification created in dbt.
 
 ### Dashboard Preview
+<img width="906" height="677" alt="image" src="https://github.com/user-attachments/assets/d9a509ac-4696-4098-babc-fe18eafcf85e" />  
 
-👉 *[Insert Page 1 dashboard screenshot]*
+<img width="901" height="674" alt="image" src="https://github.com/user-attachments/assets/eabd5f5b-3d3e-4a0b-bcbd-7148bf3e1667" />  
 
-👉 *[Insert Page 2 dashboard screenshot]*
 
-👉 *[Insert final dashboard screenshots]*  
-![Dashboard Screenshot 1](<ADD_IMAGE_PATH>)  
-![Dashboard Screenshot 2](<ADD_IMAGE_PATH>)  
+
+
+
 
 ---
 
